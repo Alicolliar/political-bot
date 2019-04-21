@@ -11,6 +11,15 @@ async def battlesceptre(ctx, who: discord.Member):
     else:
         await ctx.send(f"{ctx.author.mention} has used a battle sceptre on {who.mention}! Oh no!")
 
+@commands.has_role(559123718329204737)
+@bot.command()
+async def immigrate(ctx, who: discord.Member):
+    immigrant = ctx.guild.get_role(559123130191446028)
+    commoner = ctx.guild.get_role(553981657388941332)
+    await who.remove_roles(immigrant)
+    await who.add_roles(commoner)
+    await ctx.send(f":thumbsup: {who.mention} is no longer an immigrant.")
+
 @bot.event
 async def on_member_join(member):
     guild = member.guild
