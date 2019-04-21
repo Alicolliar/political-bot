@@ -5,7 +5,11 @@ bot = commands.Bot("-")
 
 @bot.command()
 async def battlesceptre(ctx, who: discord.Member):
-    await ctx.send(f"{ctx.author.mention} has used a battle sceptre on {who.mention}! Oh no!")
+    role = ctx.guild.get_role(561682160801546251)
+    if role not in who.roles:
+        await ctx.send(f"{ctx.author.mention} is not a wielder of the Battle Sceptre!")
+    else:
+        await ctx.send(f"{ctx.author.mention} has used a battle sceptre on {who.mention}! Oh no!")
 
 @bot.event
 async def on_member_join(member):
