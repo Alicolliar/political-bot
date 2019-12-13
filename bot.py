@@ -1,6 +1,9 @@
 import discord
 from discord.ext import commands
 
+global publicVote
+global commonsVote
+global lordsVote
 bot = commands.Bot("-")
 
 @bot.command()
@@ -53,13 +56,37 @@ async def arrest(ctx, who: discord.Member):
     else:
         await ctx.send(f"{ctx.author.mention} isn't a police officer. If you are interested in being a police officer, talk to someone.")
 
+@bot.command()
+async def startvote(ctx, place, subject):
+    """Used by admins to set up elections/votes"""
+    speaker = ctx.guild.get_role()
+    if speaker in ctx.author.roles:
+        if place == "public":
+            await ctx.guild.get_channel(654305941331902511).send(f"The Speaker has started a vote on the subject of "+subject)
+            publicVote = 1
+            commonsVote = 0
+            commonsVote = 0
+        elif place == "commons":
+            await ctx.guild.get_channel(654305941331902511).send(f"The Speaker has started a vote on the subject of "+subject)
+            publicVote = 0
+            commonsVote = 1
+            lordsVote = 0
+        elif place == "lords":
+            await ctx.guild.get_channel(654337184429768740).send(f"The Speaker has started a vote on the subject of "+subject)
+            publicVote = 0
+            commonsVote = 0
+            lordsVote = 1
+
+@bot.command()
+async def vote(vote):
+    """Used by peoples to vote."""
+
 @bot.event
 async def on_member_join(member):
     guild = member.guild
     role = guild.get_role(575350849639809073)
     await member.add_roles(role)
     await guild.get_channel(575351598973321229).send(f"Welcome to Britain, {member.mention}, I hope you had a pleasant flight. But before you can pass you must answer me these riddles four: do you have rabies, what is your favourite hot beverage, are you a fascist and what condiment do you have chips with?")
-
 
 if __name__ == "__main__":
     from os import environ
