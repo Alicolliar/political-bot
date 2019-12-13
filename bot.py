@@ -89,21 +89,21 @@ async def vote(ctx, vote):
     commoner = ctx.guild.get_role(575350847160975360)
     if publicVote == 1 and commonsVote == 0 and lordsVote == 0:
         if commoner not in ctx.author.roles:
-            await ctx.send("You are not able to take part in this election. If you believe you should be and are being disenfranchised, talk to any government employee.")
+            await ctx.send("You are not able to take part in this election. If you believe you have been disenfranchised, talk to any government employee.")
         else:
             await ctx.send(f"Thank you {ctx.author.mention}, your vote has been registered.")
             await ctx.guild.get_channel(654305941331902511).send(f"**One** Vote has been registered for:"+vote)
             await ctx.delete_message(ctx)
     elif publicVote == 0 and commonsVote == 1 and lordsVote == 0:
         if mp not in ctx.author.roles:
-            await ctx.send(f"You are unable to take part in this vote. If you believe you should be, please talk to a government employee.")
+            await ctx.send(f"You are unable to take part in this vote. If you believe you have been disenfranchised, please talk to any government employee.")
         else:
             ctx.send(f"Thank you {ctx.author.mention}, your vote has been registered.")
             await ctx.guild.get_channel(654305941331902511).send(f"**One** Vote has been registeredd for:"+vote)
             await ctx.delete_message(ctx)
     elif publicVote == 0 and commonsVote == 0 and lordsVote == 1:
         if lord not in ctx.author.roles:
-            await ctx.send(f"You are unable to take part in this vote. If you believe you have been disenfranchised, then please talk to any government employee.")
+            await ctx.send(f"You are unable to take part in this vote. If you believe you have been disenfranchised, please talk to any government employee.")
         else:
             await ctx.send(f"Thank you {ctx.author.mention}, your vote has been registered.")
             await ctx.guild.get_channel(654337184429768740).send(f"**One** Vote has been registered for::"+vote)
@@ -111,6 +111,19 @@ async def vote(ctx, vote):
     else:
         await ctx.send(f"There is no vote happening right now.")
 
+@bot.command()
+async def endvote(ctx):
+    """Used by the speaker to end elections/votes."""
+    speaker = ctx.guild.get_role()
+    if speaker in ctx.author.roles:
+        global commonsVote
+        global publicVote
+        global lordsVote
+        commonsVote = 0
+        publicVote = 0
+        lordsVote = 0
+    else:
+        await ctx.send(f"Sorry, but only the Speaker can end votes.")
 
 @bot.event
 async def on_member_join(member):
