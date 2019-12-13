@@ -1,9 +1,6 @@
 import discord
 from discord.ext import commands
 
-global publicVote
-global commonsVote
-global lordsVote
 bot = commands.Bot("-")
 
 @bot.command()
@@ -73,11 +70,16 @@ async def startvote(ctx, place, subject):
             lordsVote = 0
         elif place == "lords":
             await ctx.guild.get_channel(654337184429768740).send(f"The Speaker has started a vote on the subject of "+subject)
+            global publicVote
             publicVote = 0
+            global commonsVote
             commonsVote = 0
+            global lordsVote
             lordsVote = 1
         else:
             ctx.send(f"Sorry, Speaker, but you can't set up a vote for that group.")
+    else:
+        await ctx.send(f"Sorry, but only the Speaker can set up votes.")
 
 @bot.command()
 async def vote(ctx, vote):
