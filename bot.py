@@ -25,7 +25,7 @@ async def immigrate(ctx, who: discord.Member):
        await who.add_roles(commoner)
        await ctx.send(f":thumbsup: {who.mention} is no longer an immigrant. Cause no trouble!")
     else:
-       await ctx.send(f"{ctx.author.mention}  must be an immigration officer to immigrate people. If you are interested in being an immigration officer, talk to someone.")
+       await ctx.send(f"{ctx.author.mention} must be an immigration officer to immigrate people. If you are interested in being an immigration officer, talk to someone.")
 
 
 @bot.command()
@@ -44,86 +44,78 @@ async def knight(ctx, who: discord.Member):
 
 @bot.command()
 async def arrest(ctx, who: discord.Member):
-    """Lets police officers arrest people wuthout cause."""
+    """Lets police officers arrest people without cause."""
     police = ctx.guild.get_role(650004142198095872)
     arrested = ctx.guild.get_role(654070645663072256)
     if police in ctx.author.roles:
         await ctx.guild.get_channel(654296229454544926).send(f"{ctx.author.mention} has arrested {who.mention}, make them feel as miserable as possible.")
+        await who.remove_roles
         await who.add_roles(arrested)
     else:
         await ctx.send(f"{ctx.author.mention} isn't a police officer. If you are interested in being a police officer, talk to someone.")
 
+
 @bot.command()
 async def startvote(ctx, place, subject):
     """Used by the speaker to set up elections/votes."""
-    speaker = ctx.guild.get_role()
+    speaker = ctx.guild.get_role(575355569712398348)
     if speaker in ctx.author.roles:
         if place == "public":
             await ctx.guild.get_channel(654305941331902511).send(f"The Speaker has started a vote on the subject of "+subject)
-            publicVote = 1
-            commonsVote = 0
-            commonsVote = 0
+            global voteStatus
+            voteStatus = [1,0,0]
         elif place == "commons":
-            await ctx.guild.get_channel(654305941331902511).send(f"The Speaker has started a vote on the subject of "+subject)
-            publicVote = 0
-            commonsVote = 1
-            lordsVote = 0
+            await ctx.guild.get_channel(654337039445000201).send(f"The Speaker has started a vote on the subject of "+subject)
+            voteStatus = [0,1,0]
         elif place == "lords":
             await ctx.guild.get_channel(654337184429768740).send(f"The Speaker has started a vote on the subject of "+subject)
-            global publicVote
-            publicVote = 0
-            global commonsVote
-            commonsVote = 0
-            global lordsVote
-            lordsVote = 1
+            voteStatus = [0,0,1]
         else:
-            ctx.send(f"Sorry, Speaker, but you can't set up a vote for that group.")
+            await ctx.send(f"Sorry, Speaker, but you can't set up a vote for that group.")
     else:
         await ctx.send(f"Sorry, but only the Speaker can set up votes.")
+
 
 @bot.command()
 async def vote(ctx, vote):
     """Used by people, MPs and Lords to vote in elections, referenda and House votes."""
-    mp = ctx.guild.get_role()
+    mp = ctx.guild.get_role(575350844724084736)
     lord = ctx.guild.get_role(575379860944322571)
     commoner = ctx.guild.get_role(575350847160975360)
-    if publicVote == 1 and commonsVote == 0 and lordsVote == 0:
+    if voteStatus[0] == 1 and voteStatus[1] == 0 and voteStatus[2] == 0:
         if commoner not in ctx.author.roles:
             await ctx.send("You are not able to take part in this election. If you believe you have been disenfranchised, talk to any government employee.")
         else:
             await ctx.send(f"Thank you {ctx.author.mention}, your vote has been registered.")
-            await ctx.guild.get_channel(654305941331902511).send(f"**One** Vote has been registered for:"+vote)
+            await ctx.guild.get_channel(654305941331902511).send(f"**One** Vote has been registered for: "+vote)
             await ctx.delete_message(ctx)
-    elif publicVote == 0 and commonsVote == 1 and lordsVote == 0:
+    elif voteStatus[0] == 0 and voteStatus[1] == 1 and voteStatus[2] == 0:
         if mp not in ctx.author.roles:
             await ctx.send(f"You are unable to take part in this vote. If you believe you have been disenfranchised, please talk to any government employee.")
         else:
             ctx.send(f"Thank you {ctx.author.mention}, your vote has been registered.")
-            await ctx.guild.get_channel(654305941331902511).send(f"**One** Vote has been registeredd for:"+vote)
-            await ctx.delete_message(ctx)
-    elif publicVote == 0 and commonsVote == 0 and lordsVote == 1:
+            await ctx.guild.get_channel(654337039445000201).send(f"**One** Vote has been registeredd for: "+vote)
+            await ctx.	xdelete_message(ctx)
+    elif voteStatus[0] == 0 and voteStatus[1] == 0 and voteStatus[2] == 1:
         if lord not in ctx.author.roles:
             await ctx.send(f"You are unable to take part in this vote. If you believe you have been disenfranchised, please talk to any government employee.")
         else:
             await ctx.send(f"Thank you {ctx.author.mention}, your vote has been registered.")
-            await ctx.guild.get_channel(654337184429768740).send(f"**One** Vote has been registered for::"+vote)
-            await ctx.delete_message(ctx)
+            await ctx.guild.get_channel(654337184429768740).send(f"**One** Vote has been registered for: "+vote)
+            await delete_message(ctx)
     else:
         await ctx.send(f"There is no vote happening right now.")
 
 @bot.command()
 async def endvote(ctx):
     """Used by the speaker to end elections/votes."""
-    speaker = ctx.guild.get_role()
+    speaker = ctx.guild.get_role(575355569712398348)
     if speaker in ctx.author.roles:
-        global commonsVote
-        global publicVote
-        global lordsVote
-        commonsVote = 0
-        publicVote = 0
-        lordsVote = 0
+        global voteStatus
+        voteStatus = [0,0,0]
     else:
         await ctx.send(f"Sorry, but only the Speaker can end votes.")
+
 
 @bot.event
 async def on_member_join(member):
@@ -132,11 +124,13 @@ async def on_member_join(member):
     await member.add_roles(role)
     await guild.get_channel(575351598973321229).send(f"Welcome to Britain, {member.mention}, I hope you had a pleasant flight. But before you can pass you must answer me these riddles four: do you have rabies, what is your favourite hot beverage, are you a fascist and what condiment do you have chips with?")
 
+
 if __name__ == "__main__":
     from os import environ
     import sys
-    token = environ.get("BOT_TOKEN", "YOUR_TOKEN_HERE")
+    token = environ.get("BOT_TOKEN", "NDc5NzQ0MjA3MzM1MTk0NjQ2.XfJPuw.ROZlSc4TMOHfa2YSHY4INWBidUA")
     if token is None:
         sys.exit("Please set envvar BOT_TOKEN to your token.")
     else:
         bot.run(token)
+
