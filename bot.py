@@ -128,7 +128,7 @@ async def on_member_join(member):
 if __name__ == "__main__":
     from os import environ
     import sys
-    token = environ.get("BOT_TOKEN", "NDc5NzQ0MjA3MzM1MTk0NjQ2.XfJPuw.ROZlSc4TMOHfa2YSHY4INWBidUA")
+    token = environ.get("BOT_TOKEN", Your-token-here)
     if token is None:
         sys.exit("Please set envvar BOT_TOKEN to your token.")
     else:
