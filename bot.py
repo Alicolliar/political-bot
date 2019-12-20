@@ -32,14 +32,16 @@ async def immigrate(ctx, who: discord.Member):
 async def knight(ctx, who: discord.Member):
     """To be used by the Monarch after consultation with the Cabinet."""
     monarch = ctx.guild.get_role(575353983309316106)
+    regent = ctx.guild.get_role(656248716352684043)
     commoner = ctx.guild.get_role(575350847160975360)
     lord = ctx.guild.get_role(575379860944322571)
-    if monarch in ctx.author.roles:
-        await who.remove_roles(lord)
-        await who.add_roles(commoner)
+    if monarch in ctx.author.roles or regent in ctx.author.roles:
+        await who.add_roles(lord)
+        await who.remove_roles(commoner)
         await ctx.send(f"I, {ctx.author.mention} Regina, hereby dub thee Lord {who.mention}. You may sit in the House of Lords now.")
     else:
         await ctx.send(f"Oi, you! What the bloody hell are you doing 'ere?! Why do you have that sword? Gaurds!")
+
 
 
 @bot.command()
