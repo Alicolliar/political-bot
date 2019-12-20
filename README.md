@@ -5,8 +5,12 @@ This is a political bot that [ed588](http://www.github.com/ed588) made and I hav
 - Immigration by immigration officers
 - Arrest by police officers
 - Knighting by Monarch or Regent
-- Elections, with closed ballots and *much* chance for voter fraud.
+- Elections, with closed ballots and *much* chance for voter fraud, still very much a work in progress.
 - Specific-to-my-server-only channel IDs
+##### Still to add
+- [ ] Finish off the voting functionality
+- [ ] Ensure arrest removes all roles
+- [ ] Allow department to hire and party people to add members without having to harrass a mod.
 
 ## Requirements
 - discord.py
