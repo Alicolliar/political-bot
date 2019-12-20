@@ -1,5 +1,5 @@
 # Political Bot
-This is a political bot that [https://github.com/ed588](ed588) made and I have simply added to.
+This is a political bot that [ed588](http://www.github.com/ed588) made and I have simply added to.
 
 ## Features
 - Immigration by immigration officers
