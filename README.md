@@ -9,7 +9,7 @@ This is a political bot that [ed588](http://www.github.com/ed588) made and I hav
 - Specific-to-my-server-only channel IDs
 ##### Still to add
 - [ ] Finish off the voting functionality
-- [ ] Ensure arrest removes all roles
+- [x] Ensure arrest removes all roles
 - [ ] Allow department to hire and party people to add members without having to harrass a mod.
 
 ## Requirements
