@@ -8,7 +8,7 @@ This is a political bot that [ed588](http://www.github.com/ed588) made and I hav
 - Elections, with closed ballots and *much* chance for voter fraud, still very much a work in progress.
 - Specific-to-my-server-only channel IDs
 ##### Still to add
-- [ ] Finish off the voting functionality
+- [ ] Finish off the voting functionality by ensuring no voting fraud
 - [x] Ensure arrest removes all roles
 - [ ] Allow department to hire and party people to add members without having to harrass a mod.
 
@@ -17,5 +17,5 @@ This is a political bot that [ed588](http://www.github.com/ed588) made and I hav
 - Python 3.7+
 
 ## Disclaimer
-This bot is still a work in progress and it must be said that there is no single working version, 
-I plan to rectify this, but until then, oh well.
+This bot is still a work in progress.
+It should be assumed that the current version is the most working version, but it may not be.
