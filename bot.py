@@ -75,6 +75,8 @@ async def startvote(ctx, place, subject):
             await ctx.guild.get_channel(654337184429768740).send(f"The Speaker has started a vote on the subject of "+subject)
             await ctx.guild.get_channel(649879745189904384).send(f"A vote has been started for "+subject+". Please vote using the relevant bot commands.")
             voteStatus = [0,0,1]
+        elif voteStatus =! [0,0,0]
+            await ctx.guild.send(f"There is already a vote happening.")
         else:
             await ctx.send(f"Sorry, Speaker, but you can't set up a vote for that group.")
     else:
